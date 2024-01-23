@@ -2,7 +2,7 @@
 
 When the bot processes a message that contains an image, the 'photo' field will contain the URL for the photo on the Telegram website, and the 'caption' field contains the text for photos sent with text.
 
-Code exemple, editing the 'EchoBot' code in examples, add in in the handleNewMessages function:
+Code exemple, editing the 'EchoBot' code in examples, add in the handleNewMessages function:
 ```ino
 Serial.print("photo url: ");
 Serial.println(bot.messages[i].photo);
