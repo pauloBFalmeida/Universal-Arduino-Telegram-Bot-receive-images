@@ -59,6 +59,7 @@ struct telegramMessage {
   float latitude;
   int update_id;
   int message_id;  
+  String photo;
 
   int reply_to_message_id;
   String reply_to_text;
