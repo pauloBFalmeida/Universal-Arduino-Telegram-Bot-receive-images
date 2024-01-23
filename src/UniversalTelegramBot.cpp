@@ -449,6 +449,7 @@ bool UniversalTelegramBot::processResult(JsonObject result, int messageIndex) {
     messages[messageIndex].reply_to_message_id = 0;
     messages[messageIndex].reply_to_text = F("");
     messages[messageIndex].query_id = F("");
+    messages[messageIndex].photo = F("");
 
     if (result.containsKey("message")) {
       JsonObject message = result["message"];
@@ -480,6 +481,23 @@ bool UniversalTelegramBot::processResult(JsonObject result, int messageIndex) {
         // no need to check if containsKey["text"]. If it doesn't, it default to null
         messages[messageIndex].reply_to_text = message["reply_to_message"]["text"].as<String>();
       }
+       if (message.containsKey("photo")) {
+          // text together with the foto (in case there is no caption the String will be 'null' )
+          messages[messageIndex].file_caption = message["caption"].as<String>();
+      
+          int best_img_index = message["photo"].size() - 1;
+          // the higher the number in the list the better the quality of the image 
+          // no need to be the best image, 3rd image size (around 60kb width:450,height:800) is good enough
+          // but feel free to change or remove this limit if needed
+          best_img_index = max(best_img_index, 2);
+          String file_id = message["photo"][best_img_index]["file_id"];
+          // use getFile function to get the path referent to the image url in telegram api
+          if (getFile(messages[messageIndex].file_path, messages[messageIndex].file_size, file_id) == true)
+            messages[messageIndex].photo = messages[messageIndex].file_path;
+          else
+            // failed getting file path
+            messages[messageIndex].photo = "error";
+         }
 
     } else if (result.containsKey("channel_post")) {
       JsonObject message = result["channel_post"];
