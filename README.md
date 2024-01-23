@@ -1,7 +1,18 @@
 # Fork with the receive photo from telegram chat
 
 When the bot processes a message that contains an image, the 'photo' field will contain the URL for the photo on the Telegram website, and the 'caption' field contains the text for photos sent with text.
-With the URL then can be used an http request to download the image.
+
+Exemple:
+```ino
+Serial.print("photo url: ");
+Serial.println(bot.messages[i].photo);
+Serial.print("image caption: ");
+Serial.println(bot.messages[i].file_caption);    
+```
+You can paste the link in the browser to see if it's working correctly.
+If it is working, it should open the download browser pop up, asking where to save the file (at least on firefox)
+
+In the arduino, with the URL then can be used an http request to download the image.
 
 # Universal Telegram Bot Library
 
